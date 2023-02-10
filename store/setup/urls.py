@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from product.views import ProductViewSet
+from user.views import LoginView
 
 router_root = DefaultRouter()
 router_root.register('produtos', ProductViewSet, 'products')
 
-
 urlpatterns = [
     path('', include(router_root.urls)),
+    path('login', LoginView.as_view()),
     path('admin/', admin.site.urls),
 ]
