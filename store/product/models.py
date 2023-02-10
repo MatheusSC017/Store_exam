@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Product(models.Model):
@@ -7,6 +7,7 @@ class Product(models.Model):
     describe = models.TextField(verbose_name="descrição")
     price = models.FloatField(validators=[MinValueValidator(0)], verbose_name="preço")
     stock = models.PositiveSmallIntegerField(verbose_name="estoque")
+    score = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name="avaliação")
 
     def __str__(self):
         return self.name
