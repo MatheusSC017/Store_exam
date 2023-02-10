@@ -1,12 +1,12 @@
 from rest_framework.viewsets import mixins, GenericViewSet
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import AllowAny
 from .models import Product
 from .serializers import ProductSerializer
 
 
 class ProductViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = ProductSerializer
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [AllowAny]
     http_method_names = ['get', ]
     order_fields = ['name', 'price', 'score', '-name', '-price', '-score', ]
 
