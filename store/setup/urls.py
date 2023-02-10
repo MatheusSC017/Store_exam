@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from cart.views import RegisterCartItem, RemoveCartItem
+from cart.views import RegisterCartItem, RemoveCartItem, MyCart
 from product.views import ProductViewSet
 from user.views import LoginView
 
@@ -25,8 +25,9 @@ router_root.register('produtos', ProductViewSet, 'products')
 
 urlpatterns = [
     path('', include(router_root.urls)),
-    path('login', LoginView.as_view()),
-    path('carrinho/adicionar', RegisterCartItem.as_view()),
-    path('carrinho/remover', RemoveCartItem.as_view()),
+    path('login/', LoginView.as_view()),
+    path('carrinho/', MyCart.as_view()),
+    path('carrinho/adicionar/', RegisterCartItem.as_view()),
+    path('carrinho/remover/', RemoveCartItem.as_view()),
     path('admin/', admin.site.urls),
 ]

@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from product.models import Product
 
 
@@ -18,7 +20,7 @@ class Cart(models.Model):
     status = models.CharField(default='W', max_length=1, choices=STATUS, verbose_name='status')
 
     def __str__(self):
-        return f'{self.user} - R$ {self.total:.2f}'
+        return f'{self.user} - {self.status} - R$ {self.subtotal:.2f}'
 
     class Meta:
         verbose_name = 'carrinho'
@@ -39,3 +41,26 @@ class CartItem(models.Model):
 
     class Meta:
         verbose_name = 'item do carrinho'
+
+
+def cart_update(instance, original_quantity):
+    if instance.quantity != original_quantity:
+        difference = int(original_quantity) - int(instance.quantity)
+
+        instance.cart.subtotal -= difference * instance.unitary_value
+        if instance.unitary_value < 250.0:
+            instance.cart.freight -= difference * 10
+        instance.cart.save()
+
+
+@receiver(post_save, sender=CartItem)
+def cart_update_when_adding_or_updating_item(sender, instance, created, **kwargs):
+    original_quantity = 0 if created else instance._CartItem__original_quantity
+    cart_update(instance, original_quantity)
+
+
+@receiver(post_delete, sender=CartItem)
+def cart_update_when_deleting_item(sender, instance, **kwargs):
+    original_quantity = instance.quantity
+    instance.quantity = 0
+    cart_update(instance, original_quantity)
