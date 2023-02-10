@@ -18,12 +18,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from cart.views import RegisterCartItem, RemoveCartItem, MyCart, Checkout
+from cart.views import RegisterCartItem, RemoveCartItem, MyCart, MyOrders, Checkout
 from product.views import ProductViewSet
 from user.views import LoginView
 
 router_root = DefaultRouter()
 router_root.register('produtos', ProductViewSet, 'products')
+router_root.register('pedidos', MyOrders, 'my_orders')
 
 urlpatterns = [
     path('', include(router_root.urls)),

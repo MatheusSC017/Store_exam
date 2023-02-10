@@ -16,6 +16,17 @@ class MyCart(views.APIView):
         except CartModel.DoesNotExist:
             return Response('When choosing a product it will appear here.', status=status.HTTP_200_OK)
 
+
+class MyOrders(mixins.ListModelMixin, GenericViewSet):
+    parser_classes = [parsers.MultiPartParser, ]
+    serializer_class = CartSerializer
+    http_method_names = ['get', ]
+
+    def get_queryset(self):
+        qs = CartModel.objects.filter(user=self.request.user, status='F')
+        return qs
+
+
 class Checkout(views.APIView):
     parser_classes = [parsers.MultiPartParser]
 
