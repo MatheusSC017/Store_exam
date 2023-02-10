@@ -3,6 +3,6 @@ from .models import Product
 
 
 class ProductSerializer(ModelSerializer):
-    class Model:
+    class Meta:
         model = Product
         fields = '__all__'
