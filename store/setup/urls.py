@@ -29,9 +29,9 @@ router_root.register('pedidos', MyOrders, 'MyOrders')
 urlpatterns = [
     path('', include(router_root.urls)),
     path('login/', LoginView.as_view()),
-    path('carrinho/', MyCart.as_view()),
-    path('carrinho/adicionar/', RegisterCartItem.as_view()),
-    path('carrinho/remover/', RemoveCartItem.as_view()),
-    path('carrinho/checkout/', Checkout.as_view()),
+    path('carrinho/', MyCart.as_view(), name='MyCart'),
+    path('carrinho/adicionar/', RegisterCartItem.as_view(), name='RegisterCartItem'),
+    path('carrinho/remover/', RemoveCartItem.as_view(), name='RemoveCartItem'),
+    path('carrinho/checkout/', Checkout.as_view(), name='Checkout'),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
