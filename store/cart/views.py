@@ -17,10 +17,15 @@ class MyCart(views.APIView):
             return Response('When choosing a product it will appear here.', status=status.HTTP_200_OK)
 
 
-class MyOrders(mixins.ListModelMixin, GenericViewSet):
+class MyOrders(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     parser_classes = [parsers.MultiPartParser, ]
-    serializer_class = CartSerializer
     http_method_names = ['get', ]
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.kwargs.get('pk'):
+            return CartWithItemsSerializer
+        else:
+            return CartSerializer
 
     def get_queryset(self):
         qs = CartModel.objects.filter(user=self.request.user, status='F')

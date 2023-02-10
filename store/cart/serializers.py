@@ -13,7 +13,7 @@ class CartWithItemsSerializer(ModelSerializer):
 
     class Meta:
         model = CartModel
-        fields = ['total', 'freight', 'cartitem_set']
+        fields = ['pk', 'user', 'total', 'status', 'freight', 'cartitem_set']
 
 
 class CartSerializer(ModelSerializer):

@@ -23,8 +23,8 @@ from product.views import ProductViewSet
 from user.views import LoginView
 
 router_root = DefaultRouter()
-router_root.register('produtos', ProductViewSet, 'products')
-router_root.register('pedidos', MyOrders, 'my_orders')
+router_root.register('produtos', ProductViewSet, 'Product')
+router_root.register('pedidos', MyOrders, 'MyOrders')
 
 urlpatterns = [
     path('', include(router_root.urls)),
