@@ -3,7 +3,7 @@ from .models import Cart, CartItem
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'user', 'total', 'subtotal', 'freight', ]
+    list_display = ['pk', 'user', 'total', 'freight', 'status']
     list_display_links = ['pk', 'user', ]
     list_per_page = 50
 

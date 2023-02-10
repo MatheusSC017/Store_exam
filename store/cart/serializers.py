@@ -1,16 +1,22 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Cart, CartItem
+from .models import Cart as CartModel, CartItem as CartItemModel
 
 
 class CartItemSerializer(ModelSerializer):
     class Meta:
-        model = CartItem
+        model = CartItemModel
         fields = '__all__'
 
 
-class CartSerializer(ModelSerializer):
+class CartWithItemsSerializer(ModelSerializer):
     cartitem_set = CartItemSerializer(many=True)
 
     class Meta:
-        model = Cart
-        fields = ['total', 'subtotal', 'freight', 'cartitem_set']
+        model = CartModel
+        fields = ['total', 'freight', 'cartitem_set']
+
+
+class CartSerializer(ModelSerializer):
+    class Meta:
+        model = CartModel
+        fields = '__all__'

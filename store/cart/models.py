@@ -15,12 +15,11 @@ class Cart(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name="usuário")
     total = models.FloatField(default=0, validators=[MinValueValidator(0)], verbose_name="total")
-    subtotal = models.FloatField(default=0, validators=[MinValueValidator(0)], verbose_name="sub-total")
     freight = models.FloatField(default=0, verbose_name="frete")
     status = models.CharField(default='W', max_length=1, choices=STATUS, verbose_name='status')
 
     def __str__(self):
-        return f'{self.user} - {self.status} - R$ {self.subtotal:.2f}'
+        return f'{self.user} - {self.status} - R$ {self.total:.2f}'
 
     class Meta:
         verbose_name = 'carrinho'
@@ -47,7 +46,7 @@ def cart_update(instance, original_quantity):
     if instance.quantity != original_quantity:
         difference = int(original_quantity) - int(instance.quantity)
 
-        instance.cart.subtotal -= difference * instance.unitary_value
+        instance.cart.total -= difference * instance.unitary_value
         if instance.unitary_value < 250.0:
             instance.cart.freight -= difference * 10
         instance.cart.save()

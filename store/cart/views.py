@@ -1,8 +1,9 @@
+from rest_framework.viewsets import mixins, GenericViewSet
 from rest_framework import views, parsers, status
 from rest_framework.response import Response
 from product.models import Product as ProductModel
 from .models import Cart as CartModel, CartItem as CartItemModel
-from .serializers import CartSerializer
+from .serializers import CartWithItemsSerializer, CartSerializer
 
 
 class MyCart(views.APIView):
@@ -11,9 +12,23 @@ class MyCart(views.APIView):
     def get(self, request, format=None):
         try:
             cart = CartModel.objects.get(user=request.user, status='W')
-            return Response(data=CartSerializer(cart).data, status=status.HTTP_200_OK)
+            return Response(data=CartWithItemsSerializer(cart).data, status=status.HTTP_200_OK)
         except CartModel.DoesNotExist:
             return Response('When choosing a product it will appear here.', status=status.HTTP_200_OK)
+
+class Checkout(views.APIView):
+    parser_classes = [parsers.MultiPartParser]
+
+    def post(self, request, format=None):
+        try:
+            cart = CartModel.objects.get(user=request.user, status='W')
+        except CartModel.DoesNotExist:
+            return Response('Cart not found.', status.HTTP_400_BAD_REQUEST)
+
+        cart.status = 'F'
+        cart.save()
+
+        return Response(None, status=status.HTTP_200_OK)
 
 
 class RegisterCartItem(views.APIView):

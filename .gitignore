@@ -129,4 +129,9 @@ dmypy.json
 .pyre/
 
 # Pycharm
-./idea
+.idea/
+
+# Media Files
+.media/*
+
+

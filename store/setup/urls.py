@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from cart.views import RegisterCartItem, RemoveCartItem, MyCart
+from cart.views import RegisterCartItem, RemoveCartItem, MyCart, Checkout
 from product.views import ProductViewSet
 from user.views import LoginView
 
@@ -29,5 +31,6 @@ urlpatterns = [
     path('carrinho/', MyCart.as_view()),
     path('carrinho/adicionar/', RegisterCartItem.as_view()),
     path('carrinho/remover/', RemoveCartItem.as_view()),
+    path('carrinho/checkout/', Checkout.as_view()),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
