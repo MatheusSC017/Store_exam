@@ -134,4 +134,6 @@ store/.idea/
 # Media Files
 store/media/*
 
+# Local settings
+.localsetting.py
 
