@@ -1,6 +1,5 @@
 from cart.tests.setup import CartSetupTestCase
 from cart.serializers import CartItemSerializer, CartWithItemsSerializer, CartSerializer
-from collections import OrderedDict
 
 
 class CartItemSerializerTestCase(CartSetupTestCase):
@@ -15,7 +14,7 @@ class CartItemSerializerTestCase(CartSetupTestCase):
     def test_contents_of_serializer_fields(self) -> None:
         data = self.serializer.data
         self.assertEqual(data['cart'], self.cartitem.cart.pk)
-        self.assertEqual(data['product'], self.cartitem.product.pk)
+        self.assertEqual(data['product']['id'], self.cartitem.product.pk)
         self.assertEqual(data['unitary_value'], self.cartitem.unitary_value)
         self.assertEqual(data['quantity'], self.cartitem.quantity)
 

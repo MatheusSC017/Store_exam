@@ -1,7 +1,7 @@
 [
   {
     "name": "Super Mario Odyssey",
-    "price": 197.88,
+    "price": 257.88,
     "score": 100,
     "image": "super-mario-odyssey.png"
   },
@@ -19,7 +19,7 @@
   },
   {
     "name": "Call Of Duty WWII",
-    "price": 249.99,
+    "price": 299.99,
     "score": 205,
     "image": "call-of-duty-wwii.png"
   },

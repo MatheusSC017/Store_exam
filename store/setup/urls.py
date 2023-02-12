@@ -28,7 +28,7 @@ router_root.register('pedidos', MyOrders, 'MyOrders')
 
 urlpatterns = [
     path('', include(router_root.urls)),
-    path('login/', LoginView.as_view()),
+    path('login/', LoginView.as_view(), name='Login'),
     path('carrinho/', MyCart.as_view(), name='MyCart'),
     path('carrinho/adicionar/', RegisterCartItem.as_view(), name='RegisterCartItem'),
     path('carrinho/remover/', RemoveCartItem.as_view(), name='RemoveCartItem'),

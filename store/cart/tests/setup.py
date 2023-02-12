@@ -5,6 +5,7 @@ from pathlib import Path
 from django.contrib.auth.models import User
 from cart.models import Cart as CartModel, CartItem as CartItemModel
 from product.models import Product as ProductModel
+from rest_framework.authtoken.models import Token
 
 
 class CartSetupTestCase(APITestCase):
@@ -14,6 +15,9 @@ class CartSetupTestCase(APITestCase):
             password='UserTest',
             email='user@user.com'
         )
+
+        self.token = Token.objects.get_or_create(user=self.user)[0].key
+
 
         image = SimpleUploadedFile(name='test_image.jpg',
                                    content=open(settings.BASE_DIR / 'product/tests/image_test.png', 'rb').read(),
