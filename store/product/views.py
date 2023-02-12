@@ -6,7 +6,7 @@ from .serializers import ProductSerializer
 
 class ProductViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = ProductSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny, ]
     http_method_names = ['get', ]
     order_fields = ['name', 'price', 'score', '-name', '-price', '-score', ]
 

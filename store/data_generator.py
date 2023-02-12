@@ -31,3 +31,9 @@ User.objects.create_user(
     password='UserTest',
     email='user@user.com'
 )
+
+User.objects.create_superuser(
+    username='admin',
+    password='admin',
+    email='admin@admin.com'
+)

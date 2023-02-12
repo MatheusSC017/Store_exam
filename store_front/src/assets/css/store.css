@@ -1,0 +1,29 @@
+.bg-dark-2 {
+  background-color: #212224 !important;
+}
+
+.product-score {
+  top: 0;
+  right: 0;
+  width: 4rem;
+  height: 2rem;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.login-form {
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  transform: translate(-50%, -50%);
+}
+
+.order_by_select {
+  width: 50%;
+}
+
+@media (min-width: 992px) {
+  .order_by_select {
+    width: 25%;
+  }
+}

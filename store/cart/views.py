@@ -1,5 +1,5 @@
 from rest_framework.viewsets import mixins, GenericViewSet
-from rest_framework import views, parsers, status
+from rest_framework import views, status
 from rest_framework.response import Response
 from product.models import Product as ProductModel
 from .models import Cart as CartModel, CartItem as CartItemModel
@@ -7,8 +7,6 @@ from .serializers import CartWithItemsSerializer, CartSerializer
 
 
 class MyCart(views.APIView):
-    parser_classes = [parsers.MultiPartParser, ]
-
     def get(self, request, format=None):
         try:
             cart = CartModel.objects.get(user=request.user, status='W')
@@ -18,7 +16,6 @@ class MyCart(views.APIView):
 
 
 class MyOrders(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
-    parser_classes = [parsers.MultiPartParser, ]
     http_method_names = ['get', ]
 
     def get_serializer_class(self, *args, **kwargs):
@@ -33,8 +30,6 @@ class MyOrders(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet)
 
 
 class Checkout(views.APIView):
-    parser_classes = [parsers.MultiPartParser]
-
     def post(self, request, format=None):
         try:
             cart = CartModel.objects.get(user=request.user, status='W')
@@ -48,8 +43,6 @@ class Checkout(views.APIView):
 
 
 class RegisterCartItem(views.APIView):
-    parser_classes = [parsers.MultiPartParser, ]
-
     def post(self, request, format=None):
         # Get the current cart, otherwise create a new cart for the user
         try:
@@ -57,8 +50,8 @@ class RegisterCartItem(views.APIView):
         except CartModel.DoesNotExist:
             cart = CartModel.objects.create(user=request.user)
 
-        product = request.POST.get('product')
-        quantity = int(request.POST.get('quantity'))
+        product = request.data.get('product')
+        quantity = int(request.data.get('quantity'))
 
         if product and quantity:
             # Check if the item was in the cart, if so add the new quantity, otherwise create a new item
@@ -78,16 +71,14 @@ class RegisterCartItem(views.APIView):
 
 
 class RemoveCartItem(views.APIView):
-    parser_classes = [parsers.MultiPartParser, ]
-
     def post(self, request, format=None):
         try:
             cart = CartModel.objects.get(user=request.user, status='W')
         except CartModel.DoesNotExist:
             return Response('Cart not found.', status=status.HTTP_400_BAD_REQUEST)
 
-        product = request.POST.get('product')
-        quantity = int(request.POST.get('quantity'))
+        product = request.data.get('product')
+        quantity = int(request.data.get('quantity'))
 
         if product and quantity:
             # Check if the item was in the cart, if so remove the requested quantity, otherwise do nothing
